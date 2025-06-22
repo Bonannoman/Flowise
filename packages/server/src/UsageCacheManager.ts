@@ -1,5 +1,4 @@
-import { Keyv } from 'keyv'
-import KeyvRedis from '@keyv/redis'
+import KeyvRedis, { Keyv } from '@keyv/redis'
 import { Cache, createCache } from 'cache-manager'
 import { MODE } from './Interface'
 import { LICENSE_QUOTAS } from './utils/constants'

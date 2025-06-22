@@ -2023,9 +2023,37 @@ const ChatMessage = ({ open, chatflowid, isAgentCanvas, isDialog, previews, setP
                                                 </Box>
                                             ) : (
                                                 <>
-                                                    <MemoizedReactMarkdown chatflowid={chatflowid} isFullWidth={isDialog}>
-                                                        {message.message}
-                                                    </MemoizedReactMarkdown>
+                                                    {(() => {
+                                                            let audioUrl;
+                                                            let text = message.message;
+                                                            if (typeof text === "string") {
+                                                                try {
+                                                                    const parsed = JSON.parse(text);
+                                                                    if (typeof parsed === "object" && parsed !== null) {
+                                                                        if (parsed.message) text = parsed.message;
+                                                                        if (parsed.fileUploads) audioUrl = parsed?.fileUploads[0]?.data;
+                                                                    }
+                                                                } catch (e) {
+                                                                }
+                                                            }
+                                                            return (
+                                                                <>
+                                                                    <MemoizedReactMarkdown chatflowid={chatflowid} isFullWidth={isDialog}>
+                                                                        {text}
+                                                                    </MemoizedReactMarkdown>
+
+                                                                    {audioUrl && (
+                                                                        <audio
+                                                                            controls
+                                                                            src={audioUrl}
+                                                                            style={{ marginTop: '8px', width: '100%'}}
+                                                                        >
+                                                                            Your browser does not support the audio element.
+                                                                        </audio>
+                                                                    )}
+                                                                </>
+                                                            );
+                                                        })()}
                                                 </>
                                             )}
                                         </div>
