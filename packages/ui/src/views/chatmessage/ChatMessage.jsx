@@ -2025,6 +2025,7 @@ const ChatMessage = ({ open, chatflowid, isAgentCanvas, isDialog, previews, setP
                                                 <>
                                                     {(() => {
                                                             let audioUrl;
+                                                            let videoUrl;
                                                             let text = message.message;
                                                             if (typeof text === "string") {
                                                                 try {
@@ -2032,6 +2033,7 @@ const ChatMessage = ({ open, chatflowid, isAgentCanvas, isDialog, previews, setP
                                                                     if (typeof parsed === "object" && parsed !== null) {
                                                                         if (parsed.message) text = parsed.message;
                                                                         if (parsed.fileUploads) audioUrl = parsed?.fileUploads[0]?.data;
+                                                                        if (parsed.videoUrl) videoUrl = parsed.videoUrl
                                                                     }
                                                                 } catch (e) {
                                                                 }
@@ -2051,6 +2053,15 @@ const ChatMessage = ({ open, chatflowid, isAgentCanvas, isDialog, previews, setP
                                                                             Your browser does not support the audio element.
                                                                         </audio>
                                                                     )}
+
+                                                                    {videoUrl && (
+                                                                        <video
+                                                                        controls
+                                                                        src={videoUrl}
+                                                                        style={{ marginTop: '8px', width: '100%'}}
+                                                                        >Your browser does not support the audio element.</video>
+                                                                    )}
+                                                                    
                                                                 </>
                                                             );
                                                         })()}
